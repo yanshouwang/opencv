@@ -9,13 +9,13 @@ final _lib = DynamicLibrary.open('opencv_plugin.dll');
 final _opencv = OpenCV(_lib);
 
 Uint8List laplacian(Uint8List source, int width, int height) {
-  final data = ffi.malloc<Uint8>(source.length);
+  final size = sizeOf<Uint8>() * source.length;
+  final data = ffi.malloc.allocate<Uint8>(size);
   try {
-    for (var i = 0; i < source.length; i++) {
-      data.elementAt(i).value = source[i];
-    }
+    final view = data.asTypedList(source.length);
+    view.setAll(0, source);
     _opencv.laplacian(data, width, height);
-    return data.asTypedList(source.length);
+    return Uint8List.fromList(view);
   } finally {
     ffi.malloc.free(data);
   }

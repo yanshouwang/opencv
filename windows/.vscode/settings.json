@@ -1,6 +1,0 @@
-{
-    "files.associations": {
-        "*.arb": "json",
-        "cstddef": "cpp"
-    }
-}
