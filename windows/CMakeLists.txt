@@ -11,7 +11,7 @@ set(OpenCV_DLL_NAME_RELEASE "opencv_world455.dll")
 
 add_library(${PLUGIN_NAME} SHARED
   "opencv_plugin.cpp"
-  "opencv_native.cpp"
+  "opencv_ffi.cpp"
 )
 apply_standard_settings(${PLUGIN_NAME})
 set_target_properties(${PLUGIN_NAME} PROPERTIES

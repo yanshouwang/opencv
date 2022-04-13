@@ -9,7 +9,7 @@ void main() {
   runApp(const MyApp());
 }
 
-const name = 'images/walker.jpg';
+const name = 'images/gage.png';
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     bytesNotifier = ValueNotifier(null);
-    const duration = Duration(seconds: 5);
+    const duration = Duration(seconds: 2);
     controller = AnimationController(vsync: this, duration: duration);
     loadBytes();
 
@@ -41,7 +41,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
     final image = await codec.getNextFrame().then((frame) => frame.image);
     final source =
         await image.toByteData().then((value) => value!.buffer.asUint8List());
-    final data = opencv.laplacian(source, image.width, image.height);
+    final data = opencv.laplacian(source, image.width, image.height, ksize: 3);
     try {
       ui.decodeImageFromPixels(
         data,
@@ -75,10 +75,10 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
     return Stack(
       fit: StackFit.expand,
       children: [
-        // Image.asset(
-        //   name,
-        //   fit: BoxFit.contain,
-        // ),
+        Image.asset(
+          name,
+          fit: BoxFit.cover,
+        ),
         AnimatedBuilder(
           animation: controller,
           builder: (context, child) {
@@ -123,7 +123,7 @@ class ImagePainter extends CustomPainter {
       canvas: canvas,
       rect: bounds,
       image: image,
-      fit: BoxFit.contain,
+      fit: BoxFit.cover,
     );
   }
 
@@ -140,10 +140,11 @@ class RectClipper extends CustomClipper<Rect> {
 
   @override
   Rect getClip(ui.Size size) {
-    final dy = value * size.height * 2.0;
-    final top = dy < size.height ? 0.0 : dy - size.height;
-    final height = dy < size.height ? dy : size.height - top;
-    return Rect.fromLTWH(0.0, top, size.width, height);
+    final height = size.height * 0.5;
+    final dy = value * (size.height + height);
+    final top = dy < height ? 0.0 : dy - height;
+    final bottom = dy < size.height ? dy : size.height;
+    return Rect.fromLTRB(0.0, top, size.width, bottom);
   }
 
   @override

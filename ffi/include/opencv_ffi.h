@@ -1,5 +1,5 @@
-#ifndef OPENCV_NATIVE_H_
-#define OPENCV_NATIVE_H_
+#ifndef OPENCV_FFI_H
+#define OPENCV_FFI_H
 
 #if defined(__GNUC__)
 // Attributes to prevent 'unused' function from being removed and to make it visible
@@ -10,14 +10,13 @@
 #endif
 
 typedef unsigned char BYTE;
-typedef unsigned long long ULONG;
 
 #if defined(__cplusplus)
 extern "C"
 {
 #endif // __cplusplus
 
-    OPENCV_NATIVE_EXPORT void laplacian(BYTE *data, int width, int height);
+    OPENCV_NATIVE_EXPORT void laplacian(BYTE *data, int width, int height, int ksize = 1);
 
 #if defined(__cplusplus)
 }

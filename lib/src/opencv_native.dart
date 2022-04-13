@@ -21,20 +21,22 @@ class OpenCV {
     ffi.Pointer<BYTE> data,
     int width,
     int height,
+    int ksize,
   ) {
     return _laplacian(
       data,
       width,
       height,
+      ksize,
     );
   }
 
   late final _laplacianPtr = _lookup<
       ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Pointer<BYTE>, ffi.Int32, ffi.Int32)>>('laplacian');
-  late final _laplacian =
-      _laplacianPtr.asFunction<void Function(ffi.Pointer<BYTE>, int, int)>();
+          ffi.Void Function(ffi.Pointer<BYTE>, ffi.Int32, ffi.Int32,
+              ffi.Int32)>>('laplacian');
+  late final _laplacian = _laplacianPtr
+      .asFunction<void Function(ffi.Pointer<BYTE>, int, int, int)>();
 }
 
 typedef BYTE = ffi.Uint8;
