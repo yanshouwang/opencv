@@ -17,3 +17,7 @@ x86/
 !*.[Cc]ache/
 
 .vscode/
+
+# hard link
+include/opencv_ffi.h
+opencv_ffi.cpp
