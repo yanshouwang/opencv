@@ -1,6 +1,7 @@
 # Windows
-New-Item -ItemType HardLink -Path ../windows/opencv_ffi.cpp -Target ../ffi/opencv_ffi.cpp
-New-Item -ItemType HardLink -Path ../windows/include/opencv_ffi.h -Target ../ffi/include/opencv_ffi.h
+New-Item ../windows/include/wrapcv.h -ItemType HardLink -Value ../native/include/wrapcv.h
+New-Item ../windows/wrapcv.cpp -ItemType HardLink -Value ../native/wrapcv.cpp
 # Android
-New-Item -ItemType HardLink -Path ../android/src/main/cpp/opencv_ffi.cpp -Target ../ffi/opencv_ffi.cpp
-New-Item -ItemType HardLink -Path ../android/src/main/cpp/include/opencv_ffi.h -Target ../ffi/include/opencv_ffi.h
+New-Item ../android/src/main/cpp, ../android/src/main/cpp/include -ItemType Directory 
+New-Item ../android/src/main/cpp/include/wrapcv.h -ItemType HardLink -Value ../native/include/wrapcv.h
+New-Item ../android/src/main/cpp/wrapcv.cpp -ItemType HardLink -Value ../native/wrapcv.cpp

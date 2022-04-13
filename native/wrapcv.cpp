@@ -1,4 +1,4 @@
-#include "include/opencv_ffi.h"
+#include "include/wrapcv.h"
 
 #include <opencv2/opencv.hpp>
 

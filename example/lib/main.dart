@@ -1,9 +1,10 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:opencv/opencv.dart' as opencv;
+import 'package:opencv/opencv.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,41 +20,42 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
-  late ValueNotifier<ui.Image?> bytesNotifier;
+  late ValueNotifier<ui.Image?> imageNotifier;
   late AnimationController controller;
 
   @override
   void initState() {
     super.initState();
-    bytesNotifier = ValueNotifier(null);
+    imageNotifier = ValueNotifier(null);
     const duration = Duration(seconds: 2);
     controller = AnimationController(vsync: this, duration: duration);
-    loadBytes();
+    loadImage();
 
     controller.repeat();
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> loadBytes() async {
-    final bytes =
-        await rootBundle.load(name).then((data) => data.buffer.asUint8List());
-    final codec = await ui.instantiateImageCodec(bytes);
-    final image = await codec.getNextFrame().then((frame) => frame.image);
-    final source =
-        await image.toByteData().then((value) => value!.buffer.asUint8List());
-    final data = opencv.laplacian(source, image.width, image.height, ksize: 3);
+  Future<void> loadImage() async {
     try {
+      final bytes =
+          await rootBundle.load(name).then((data) => data.buffer.asUint8List());
+      final codec = await ui.instantiateImageCodec(bytes);
+      final image = await codec.getNextFrame().then((frame) => frame.image);
+      final source =
+          await image.toByteData().then((value) => value!.buffer.asUint8List());
+      final data =
+          opencv.laplacian(source, image.width, image.height, ksize: 3);
       ui.decodeImageFromPixels(
         data,
         image.width,
         image.height,
         ui.PixelFormat.rgba8888,
         (image) {
-          bytesNotifier.value = image;
+          imageNotifier.value = image;
         },
       );
-    } catch (e, s) {
-      print(s);
+    } catch (error, stack) {
+      log('$error\n$stack');
     }
   }
 
@@ -80,18 +82,18 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
           fit: BoxFit.cover,
         ),
         AnimatedBuilder(
-          animation: controller,
+          animation: animation,
           builder: (context, child) {
             return ValueListenableBuilder<ui.Image?>(
-              valueListenable: bytesNotifier,
-              builder: (context, bytes, child) {
-                if (bytes == null) {
+              valueListenable: imageNotifier,
+              builder: (context, image, child) {
+                if (image == null) {
                   return Container();
                 } else {
                   return ClipRect(
                     clipper: RectClipper(animation.value),
                     child: CustomPaint(
-                      painter: ImagePainter(bytes),
+                      painter: ImagePainter(image),
                     ),
                   );
                 }
@@ -105,7 +107,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
-    bytesNotifier.dispose();
+    imageNotifier.dispose();
     controller.dispose();
     super.dispose();
   }

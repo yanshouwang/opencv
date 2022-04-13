@@ -69,8 +69,8 @@ flutter:
   # https://flutter.dev/custom-fonts/#from-packages
 
 ffigen:
-  output: 'lib/src/opencv_native.dart'
+  output: 'lib/src/wrapcv.dart'
   headers:
     entry-points:
-      - 'windows/include/opencv/opencv_native.h'
-  name: 'OpenCV'
+      - 'native/include/wrapcv.h'
+  name: WrapCV

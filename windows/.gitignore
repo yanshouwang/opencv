@@ -19,5 +19,5 @@ x86/
 .vscode/
 
 # hard link
-include/opencv_ffi.h
-opencv_ffi.cpp
+include/wrapcv.h
+wrapcv.cpp
