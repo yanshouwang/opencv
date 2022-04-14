@@ -20,4 +20,6 @@ Use OpenCV with dart:ffi
 
 - Only available on Windows and Android for now, iOS, macOS and Linux is on the way!
 
+## Acknowledge
 
+- [westracer/flutter_native_opencv](https://github.com/westracer/flutter_native_opencv)
