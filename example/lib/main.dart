@@ -90,8 +90,27 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                 if (image == null) {
                   return Container();
                 } else {
-                  return ClipRect(
-                    clipper: RectClipper(animation.value),
+                  return ShaderMask(
+                    shaderCallback: (bounds) {
+                      const height = 2.0;
+                      final top = ui.lerpDouble(
+                        -1.0 - height,
+                        1.0,
+                        animation.value,
+                      )!;
+                      final bottom = top + height;
+                      final colors = [
+                        Colors.transparent,
+                        Colors.white,
+                        Colors.transparent,
+                      ];
+                      return LinearGradient(
+                        begin: Alignment(0.5, top),
+                        end: Alignment(0.5, bottom),
+                        colors: colors,
+                      ).createShader(bounds);
+                    },
+                    blendMode: BlendMode.dstIn,
                     child: CustomPaint(
                       painter: ImagePainter(image),
                     ),
