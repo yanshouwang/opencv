@@ -4,12 +4,20 @@ Use OpenCV with dart:ffi
 
 ## Getting Started
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+### Windows
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Download Windows and Android SDK from [OpenCV releases](https://opencv.org/releases/)
+- Extract the Windows SDK, set `OpenCV_DIR` with `<opencv direcotry>/build` in the `PATH`
+- Extract the Android SDK, set `OpenCV_ANDROID` with `<opencv direcotry>/sdk/native` in the `PATH`
+- Run the `setup_windows.ps1` script in the scripts folder.
+- Now you can run the opencv example which call the `laplacian` function with dart:ffi
+
+## Available APIs
+
+- laplcian
+
+## Konwn Issues
+
+- Only available on Windows and Android for now, iOS, macOS and Linux is on the way!
+
 
